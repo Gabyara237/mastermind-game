@@ -11,6 +11,7 @@ class Player(SQLModel, table= True):
     id: Optional[int]= Field(default=None, primary_key=True)
     name: str = Field(index=True)
     score: int = Field(default=0)
+    last_attempt_score: Optional[int] = Field(default=None)
 
     # One to many relationship with GameSession
     game_sessions: List["GameSession"]= Relationship(back_populates="player")
