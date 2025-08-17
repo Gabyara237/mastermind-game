@@ -1,5 +1,6 @@
 # Environment and configuration files
 .env
+secrets.env
 
 # Python virtual environment
 venv/

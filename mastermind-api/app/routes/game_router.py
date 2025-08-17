@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Body
-from sqlmodel import Session
+from sqlmodel import Session, select
 from app.database.connection import get_session
 from app.services.game import evaluate_player_number
 from app.services.score import update_player_score
+from app.services.hints_service import generate_hint
 from app.database.crud import(
     get_player_by_name,
     create_game_session,
@@ -123,6 +124,34 @@ def make_a_guess(
         "attempts_left": game_session.attempts_left,
         "history": history
     }
+
+@router.post("/get_ai_hint/")
+def get_hint(session_id: int = Body(...), session: Session = Depends(get_session)):
+    """
+        Endpoint to obtain an AI or backup hint
+    """
+    game_session = session.exec(
+        select(GameSession).where(GameSession.id == session_id)
+    ).first()
+
+    if not game_session:
+        raise HTTPException(status_code=404, detail = "Game session not found")
+
+    if not game_session.is_active:
+        raise HTTPException(status_code=400, detail="Game session already ended")
+
+    if not game_session.attempts: 
+        raise HTTPException(status_code =400, detail= "You need to make at least one attempt to get a hint")
+
+    secret_number_list = list(game_session.secret_number)
+    last_attempt = game_session.attempts[-1]
+
+    hint_text = generate_hint(
+        last_attempt.guessed_number,
+        secret_number= secret_number_list
+    )
+
+    return {"hint": hint_text}
 
 
 @router.get("/top_players/")
