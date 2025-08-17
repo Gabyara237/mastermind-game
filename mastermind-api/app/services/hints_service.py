@@ -43,12 +43,34 @@ def generate_hint(guessed_number: str, secret_number: List[str]) ->str:
 
     if unguessed_digits:
         unguessed_str = ", ".join(unguessed_digits)
-        prompt = f""" You are a clue generator for a Mastermind game. The secret number contains the following 
-        digits that the player has not yet guessed: {unguessed_str}. Your task is to generate a general culture 
-        clue related to one of these numbers. The clue must be a riddle or a question whose answer is one of these 
-        numbers. Do not mention the number directly in the question. The answer should be just the riddle, 
-        without explanation. Example: If the number is '7', the hint could be: 'The number of continents. 
-        What number is it?' or if the number is '5', the hint could be: 'The number of major oceans on planet Earth. What number is it?'  """
+        prompt = f"""You are a clue generator for a Mastermind game. The secret number contains the following 
+        digits that the player has not yet guessed: {unguessed_str}. 
+
+        Your task is to generate a riddle whose answer is EXACTLY ONE of these single digits: {unguessed_str}.
+
+        REQUIREMENTS:
+        - The answer must be a single digit (0, 1, 2, 3, 4, 5, 6, 7, 8, or 9)
+        - The riddle should reference something that naturally counts or measures to that digit
+        - Use intermediate difficulty - avoid obvious questions like 'How many legs does a dog have?'
+        - Do not mention the digit directly in the question
+        - Do not use self-referential phrases like 'I am the number of...'
+        - Phrase as a neutral question or statement
+
+        EXAMPLES:
+        - If the digit is 7: "How many continents are there on Earth?"
+        - If the digit is 5: "How many major oceans cover our planet?"
+        - If the digit is 3: "How many primary colors exist in traditional color theory?"
+        BAD EXAMPLES (avoid these):
+`       - "How many sides does a quadrilateral have?" (word contains answer)
+
+        ADDITIONAL REQUIREMENTS:
+        - Ensure the question has ONE clear, unambiguous answer
+        - Avoid questions that could be interpreted in multiple ways
+        - The riddle should have universal consensus on the answer
+
+        Generate ONE riddle whose answer is one of these digits: {unguessed_str}
+                
+        """
 
         ai_riddle = generate_from_ai(prompt)
 
