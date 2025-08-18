@@ -1,14 +1,158 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/*********************     WELCOME PAGE    ************************/
+
+.container-welcome {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2d2ff;
+  padding: 20px;
+}
+
+.welcome-card {
+  display: flex;
+  width: 900px;
+  max-width: 95vw;
+  height: 600px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* Left side - WelcomeSection */
+.left-container-welcome {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+}
+
+/* Right side - Forms */
+.right-welcome-container {
+  flex: 1;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  color: #2e2b2b;
+}
+
+/* Header of the form */
+.title-welcome-container {
+  margin-bottom: 30px;
+
+}
+
+
+.title-welcome-right {
+  font-size: 1.3rem;
+  color: #333;
+  margin: 0;
+  justify-self: center;
+}
+
+.title-welcome-right span {
+  color: #9c27b0;
+  font-weight: 600;
+}
+
+/* Toggle links */
+.sign {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.span-sign {
+  color: #9c27b0;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
+.span-sign:hover {
+  color: #641487;
+  transform: scale(1.05);
+}
+
+.hello {
+  margin-bottom: 20px;
+  color: #9c44db;
+}
+
+/*********************     lOGINFORM AND REGISTER COMPONENT    ************************/
+
+.login-form-section,
+.register-form {
+  align-self: center;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 12px;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #9c44db;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.error-message {
+  color: #ff0000;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+button {
+  border: none;
+  padding: 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  background: #9c44db;
+  font-weight: bold;
+  color: #ffffff;
+  width: -webkit-fill-available;
+  margin-top: 30px;
+}
+
+
+
+
+.title-welcome-section {
+  font-family: "Chewy", system-ui;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-size: clamp(1.1rem, 6vw, 4.4rem);
 }
