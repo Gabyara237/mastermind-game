@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     """
      Database configuration
     """
-    database_url: str ="sqlite: ///./mastermind.db"
+    database_url: str ="sqlite:///./mastermind.db"
 
     class Config:
         env_file = ".env"

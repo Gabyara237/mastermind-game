@@ -1,20 +1,67 @@
-from typing import List
+from typing import List, Optional
+from app.auth.auth_utils import hash_password,verify_password
 from sqlmodel import Session, select
-from app.models import Player, GameSession, GameAttempt
+from app.models import User, Player, GameSession, GameAttempt
 
-def get_player_by_name(session: Session, player_name: str) -> Player:
+
+def create_user(session: Session, username: str, email: str, password: str) -> User:
     """
-        Search for a player by name. If it does not exist, create it.
+        Create user and player automatically
     """
-    player = session.exec(select(Player).where(Player.name== player_name)).first()
+    # Create user
+    hashed_password = hash_password(password)
+    user = User(
+        username = username,
+        email = email,
+        hashed_password= hashed_password
+    )
 
-    if not player:
-        player= Player(name=player_name)
-        session.add(player)
-        session.commit()
-        session.refresh(player)
+    session.add(user)
+    session.commit()
+    session.refresh(user)
 
-    return player
+    # Create player automatically profile
+    player= Player(user_id =user.id)
+    session.add(player)
+    session.commit()
+    session.refresh(player)
+    
+    return user
+
+
+def get_user_by_username(session: Session, username: str) -> Optional[User]:
+    """
+        Search for a player by username.
+    """
+    return session.exec(select(User).where(User.username== username)).first()
+    
+
+def get_player_by_user_id(session: Session, user_id: int) -> Optional[Player]:
+    """
+        Gets player profile by user id
+    """
+    return session.exec(select(Player).where(Player.user_id == user_id)).first()
+
+
+def get_user_by_email(session: Session, email: str) -> Optional[User]:
+    """
+        Gets user by email
+    """
+    return session.exec(select(User).where(User.email == email)).first()
+    
+
+def authenticate_user(session: Session, username:str,password:str) -> Optional[User]:
+    """
+        Authenticates a user by verifying username and password
+    """
+
+    user = get_user_by_username(session, username)
+    if not user:
+        return None
+    if not verify_password(password,user.hashed_password):
+        return None
+    
+    return user
 
 
 def create_game_session(session: Session, player_id: int, secret_number:str, difficulty_level: int, attempts_left:int) -> GameSession:
