@@ -5,19 +5,20 @@ from app.services.game import evaluate_player_number
 from app.services.score import update_player_score
 from app.services.hints_service import generate_hint
 from app.database.crud import(
-    get_player_by_name,
+    get_player_by_user_id,
     create_game_session,
     create_game_attempt,
     update_game_session,
     get_top_players
 )
-from app.models import GameSession
+from app.models import GameSession, User
 from app.client.random_number import get_secret_number
+from app.auth.auth_middleware import get_current_user
 
-router = APIRouter()
+router = APIRouter(prefix="/game", tags=["Game"])
 
 @router.post("/start_game/")
-def start_game(player_name: str, difficulty_level: int, session: Session=Depends(get_session)):
+def start_game(difficulty_level: int, current_user: User = Depends(get_current_user), session: Session=Depends(get_session)):
     """
         Endpoint to start a new game
     """
@@ -25,11 +26,15 @@ def start_game(player_name: str, difficulty_level: int, session: Session=Depends
     if difficulty_level not in [1,2,3]:
         raise HTTPException(status_code = 400, detail="Invalid difficulty level. Use 1, 2 or 3.")
     
-    player = get_player_by_name(session,player_name)
+    player = get_player_by_user_id(session,current_user.id)
+
+    if not player:
+        raise HTTPException(status_code= 404, detail ="Player profine not found")
 
     secret_number_list, attempts_left = get_secret_number(difficulty_level)
     secret_number_str = "".join(secret_number_list)
-
+    print(f"SECRET_NUMBER: {secret_number_str}")
+    
     game_session = create_game_session(
         session,
         player_id=player.id,
@@ -48,6 +53,7 @@ def start_game(player_name: str, difficulty_level: int, session: Session=Depends
 def make_a_guess(
     session_id: int = Body(...), 
     guessed_number: str = Body(..., max_length=4, min_length=4), 
+    current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session)
 ):
     """
@@ -58,6 +64,10 @@ def make_a_guess(
     
     if not game_session:
         raise HTTPException(status_code=404, detail="Game session not found")
+    
+    if game_session.player.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail= "Access denied to this game session")
+    
     if not game_session.is_active:
         raise HTTPException(status_code=400, detail="Game session already ended")
 
@@ -126,7 +136,7 @@ def make_a_guess(
     }
 
 @router.post("/get_ai_hint/")
-def get_hint(session_id: int = Body(...), session: Session = Depends(get_session)):
+def get_hint(session_id: int = Body(...), current_user:User = Depends(get_current_user), session: Session = Depends(get_session)):
     """
         Endpoint to obtain an AI or backup hint
     """
@@ -137,6 +147,9 @@ def get_hint(session_id: int = Body(...), session: Session = Depends(get_session
     if not game_session:
         raise HTTPException(status_code=404, detail = "Game session not found")
 
+    if game_session.player.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Access denied to this game session ")
+    
     if not game_session.is_active:
         raise HTTPException(status_code=400, detail="Game session already ended")
 
