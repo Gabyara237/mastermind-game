@@ -16,7 +16,7 @@ Players receive hints about their guesses indicating how many numbers are correc
   - **Easy**: 4 digits (0-5), 12 attempts
   - **Medium**: 4 digits (0-7), 10 attempts
   - **Hard**: 4 digits (0-9), 8 attempts
-- **Advanced Scoring System**: Dynamic scoring with rewards and penalties
+- **Scoring System**: Dynamic scoring with rewards and penalties
 - **AI-Powered Hints**: Intelligent strategic guidance using Google Gemini AI
 - **Real-time Feedback**: Instant game state updates and hint generation
 
@@ -24,9 +24,9 @@ Players receive hints about their guesses indicating how many numbers are correc
 
 - **JWT Authentication**: Secure token-based authentication system
 - **Player Profiles**: Persistent player data
-- **Comprehensive Score Tracking**: Detailed scoring with historical data
-- **Game Session Management**: Track multiple game sessions and attempts
-- **Penalty System**: Strategic depth with score penalties for poor performance
+- **Score Tracking**: Detailed scoring with historical data
+- **Game Session Management**: Track current game session state and individual attempts
+- **Strategic Penalty System**: Score penalties when current attempt performs worse than previous attempt
 
 ## Technologies with Documentation
 
@@ -75,7 +75,7 @@ Mastermind is built using modern technologies with comprehensive documentation a
 
 ### Frontend
 
-- **React 18**: Modern JavaScript library for building user interfaces
+- **React 19**: Modern JavaScript library for building user interfaces
 - **Vite**: Next-generation frontend build tool with fast HMR
 - **Node.js**: JavaScript runtime environment
 - **CSS3**: Modern styling and responsive design
@@ -84,7 +84,7 @@ Mastermind is built using modern technologies with comprehensive documentation a
 
 ### Prerequisites
 
-- **Node.js** (v16 or higher)
+- **Node.js** (v18 or higher)
 - **Python 3.12+**
 - **Git**
 
@@ -252,7 +252,7 @@ mastermind-game/
 
 Here's a walkthrough of implemented features:
 
-<img src='mastermind_walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='mastermind_walkthrough.gif' title='Gif Walkthrough' width='' alt='Gif Walkthrough' />
 
 GIF created with **[ScreenToGif](https://www.screentogif.com/)**
 
