@@ -1,9 +1,9 @@
 import { useState } from "react"
-import LoginForm from "../components/LoginForm"
-import RegisterForm from "../components/RegisterForm"
-import WelcomeSection from "../components/WelcomeSection"
+import LoginForm from "../components/welcome/LoginForm"
+import RegisterForm from "../components/welcome/RegisterForm"
+import WelcomeSection from "../components/welcome/WelcomeSection"
 
-const Welcome =()=>{
+const Welcome =({onLogin})=>{
 
     const[login,setLogin]= useState(true)
     const toggleAuth = () => { 
@@ -23,7 +23,7 @@ const Welcome =()=>{
                         <h2 className="hello">Hello!</h2>
                         {login?<p className="title-welcome-right"> <span>Login</span> your Account</p>:<p className="title-welcome-right"> <span>Create</span> a new Account</p> }
                     </div>
-                    {login ? <LoginForm/> : <RegisterForm/>}
+                    {login ? <LoginForm onLogin={onLogin}/> : <RegisterForm/>}
                     {login ? 
                         <p className="sign" >Don't have account? <span className="span-sign" onClick={toggleAuth}>Sign Up</span></p> :
                         <p className="sign">Already have an account? <span className="span-sign" onClick={toggleAuth}>Sign In</span></p>
