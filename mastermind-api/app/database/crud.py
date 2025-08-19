@@ -9,11 +9,13 @@ def create_user(session: Session, username: str, email: str, password: str) -> U
     """
         Create user and player automatically
     """
+    normalized_username = username.lower().strip()
+    normalized_email = email.lower().strip()
     # Create user
     hashed_password = hash_password(password)
     user = User(
-        username = username,
-        email = email,
+        username = normalized_username,
+        email = normalized_email,
         hashed_password= hashed_password
     )
 
@@ -34,8 +36,9 @@ def get_user_by_username(session: Session, username: str) -> Optional[User]:
     """
         Search for a player by username.
     """
-    return session.exec(select(User).where(User.username== username)).first()
-    
+    normalized_username = username.lower().strip()
+    statement = select(User).where(User.username == normalized_username)
+    return session.exec(statement).first()    
 
 def get_player_by_user_id(session: Session, user_id: int) -> Optional[Player]:
     """
@@ -48,8 +51,9 @@ def get_user_by_email(session: Session, email: str) -> Optional[User]:
     """
         Gets user by email
     """
-    return session.exec(select(User).where(User.email == email)).first()
-    
+    normalized_email = email.lower().strip()
+    statement = select(User).where(User.email == normalized_email)
+    return session.exec(statement).first()    
 
 def authenticate_user(session: Session, username:str,password:str) -> Optional[User]:
     """
