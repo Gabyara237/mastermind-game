@@ -4,12 +4,12 @@ from sqlmodel import Session
 from app.auth.auth_utils import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.auth.auth_middleware import get_current_user
 from app.database.crud import create_user, authenticate_user, get_user_by_username, get_user_by_email, get_player_by_user_id
-from app.schemas import UserCreate, UserLogin, Token, UserResponse
+from app.schemas import UserCreate, UserLogin, Token, UserResponse,UserRegisterResponse
 from app.database.connection import get_session
 
 router = APIRouter(prefix="/auth",tags=["Authentication"])
 
-@router.post("/register",response_model= UserResponse)
+@router.post("/register",response_model= UserRegisterResponse)
 async def register_user( user_data: UserCreate, session:Session=Depends(get_session)):
     """
         Register a new user
