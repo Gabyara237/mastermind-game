@@ -271,13 +271,10 @@ The project follows Python PEP 8 standards and uses modern React patterns.
 
 ## Future Enhancements
 
-- [ ] **Advanced Analytics**: Detailed performance analytics and insights
-- [ ] **Enhanced AI Hints**: More sophisticated AI analysis patterns
-- [ ] **Multiplayer Mode**: Real-time competition against other players
-- [ ] **Achievement System**: Unlock rewards and badges for milestones
-- [ ] **Mobile App**: Native mobile application with offline mode
-- [ ] **Tournament Mode**: Organized competitions with leaderboards
-- [ ] **Custom Difficulty**: Player-defined difficulty parameters
+- [ ] **Game Timer System**: Add chronometer for individual attempts or complete game sessions
+- [ ] **Detailed User Profile Statistics**: Win rate by difficulty, average attempts, best times
+- [ ] **Individual Game Scoring**: Track score for each game session (currently uses global player score)
+- [ ] **Responsive Design**: Mobile-first CSS styling for all screen sizes
 
 ## Contributing
 
