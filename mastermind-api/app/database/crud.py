@@ -2,6 +2,7 @@ from typing import List, Optional
 from app.auth.auth_utils import hash_password,verify_password
 from sqlmodel import Session, select
 from app.models import User, Player, GameSession, GameAttempt
+from sqlalchemy.orm import selectinload
 
 
 def create_user(session: Session, username: str, email: str, password: str) -> User:
@@ -109,4 +110,7 @@ def update_game_session(session: Session, game_session: GameSession):
 
 def get_top_players(session:Session) -> List[Player]:
     """Gets the 3 best players by score"""
-    return session.exec(select(Player).order_by(Player.score.desc()).limit(3)).all()
+    return session.exec(
+        select(Player)
+        .options(selectinload(Player.user))
+        .order_by(Player.score.desc()).limit(3)).all()

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
 from app.auth.auth_utils import create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.auth.auth_middleware import get_current_user
-from app.database.crud import create_user, authenticate_user, get_user_by_username, get_user_by_email
+from app.database.crud import create_user, authenticate_user, get_user_by_username, get_user_by_email, get_player_by_user_id
 from app.schemas import UserCreate, UserLogin, Token, UserResponse
 from app.database.connection import get_session
 
@@ -69,8 +69,16 @@ async def login(login_data: UserLogin, session: Session = Depends(get_session)):
     }
 
 @router.get("/me", response_model=UserResponse)
-async def get_current_user_info(current_user = Depends(get_current_user)):
+async def get_current_user_info(current_user = Depends(get_current_user), session: Session = Depends(get_session)):
     """
         Gets current user information
     """
-    return current_user
+    player = get_player_by_user_id(session, current_user.id)
+    
+    return {
+        "id": current_user.id,
+        "username": current_user.username,
+        "email": current_user.email,
+        "created_at": current_user.created_at,
+        "score": player.score if player else 0
+    }

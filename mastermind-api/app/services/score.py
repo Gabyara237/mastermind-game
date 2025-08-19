@@ -40,8 +40,10 @@ def update_player_score(player: Player, session_data: GameSession, correct_numbe
     )
 
     # Apply penalty logic
-    if player.last_attempt_score is not None and player.last_attempt_score > 0 and score_this_attempt < player.last_attempt_score:
+    if (player.last_attempt_score is not None and score_this_attempt < player.last_attempt_score):
         score_this_attempt = penalize_score(session_data.difficulty_level,score_this_attempt)
+
+
 
     # Update the total score and the last attempt's score for the player
     player.score += score_this_attempt

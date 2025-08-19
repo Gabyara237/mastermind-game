@@ -25,7 +25,8 @@ class UserResponse(BaseModel):
     username: str
     email: str
     created_at: datetime
-    
+    score: int
+
     class Config:
         from_attributes = True
 

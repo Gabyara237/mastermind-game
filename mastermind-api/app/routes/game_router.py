@@ -173,4 +173,21 @@ def get_top_three_players(session: Session = Depends(get_session)):
         Endpoint to obtain the 3 best players
     """
     players = get_top_players(session)
-    return {"top_players": players}
+    
+    # Serialización manual para incluir user data
+    players_data = []
+    for player in players:
+        player_dict = {
+            "id": player.id,
+            "user_id": player.user_id,
+            "score": player.score,
+            "last_attempt_score": player.last_attempt_score,
+            "user": {
+                "id": player.user.id,
+                "username": player.user.username,
+                "email": player.user.email
+            } if player.user else None
+        }
+        players_data.append(player_dict)
+    
+    return {"top_players": players_data}
