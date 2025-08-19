@@ -33,7 +33,6 @@ const LoginForm =({onLogin})=>{
             if(response.ok){
                 const responseData = await response.json();
                 localStorage.setItem('token',responseData.access_token);
-                console.log('Successful login!', responseData);
                 setSuccess(true); 
                 setData({ username: "", password: "" }); 
                 onLogin();
