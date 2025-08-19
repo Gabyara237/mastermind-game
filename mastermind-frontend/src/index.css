@@ -455,3 +455,12 @@ button {
   padding: 10px;
   margin: 10px;
 }
+
+.success-message {
+  color: #000c00;
+  justify-self: center;
+  background-color: #afe4af99;
+  padding: 8px;
+  margin-top: -20px;
+  margin-bottom: 10px;
+}
