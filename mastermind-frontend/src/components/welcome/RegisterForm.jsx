@@ -36,7 +36,6 @@ const RegisterForm =() =>{
                 console.log('Successful register!', responseData);
                 setSuccess(true); 
                 setData({ username: "", email: "", password: "" }); 
-                alert('Account successfully created')
                 
             }else{
 
